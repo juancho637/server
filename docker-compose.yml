@@ -58,8 +58,7 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
       - /var/run:/var/run:ro
       - /cgroup:/cgroup:ro
-    devices:
-      - /dev/kmsg:/dev/kmsg
+      - /etc:/rootfs/etc:ro
     security_opt:
       - no-new-privileges:true
     command:
