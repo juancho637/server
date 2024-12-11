@@ -40,6 +40,7 @@ services:
   # Node Exporter para métricas del sistema
   node-exporter:
     image: prom/node-exporter
+    container_name: exporter
     ports:
       - "9100:9100"
     networks:
