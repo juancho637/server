@@ -48,12 +48,26 @@ services:
 
   # cAdvisor para métricas de contenedores
   cadvisor:
-    image: google/cadvisor
+    image: gcr.io/cadvisor/cadvisor:v0.46.0
+    container_name: cadvisor
+    restart: unless-stopped
     ports:
       - "8080:8080"
+    volumes:
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /var/run:/var/run:ro
+      - /cgroup:/cgroup:ro
+    devices:
+      - /dev/kmsg:/dev/kmsg
+    security_opt:
+      - no-new-privileges:true
+    command:
+      - --docker_only
+      - --housekeeping_interval=30s
+      - --disable_metrics=percpu,sched,tcp,udp,disk,diskIO,accelerator,hugetlb,referenced_memory,cpu_topology,resctrl
     networks:
       - monitoring
-    restart: unless-stopped
 
 networks:
   proxy:
